@@ -53,10 +53,10 @@ def _convert_js_files_to_amd_modules(ctx, js_outputs):
         ] if p])
         file_name = js_file.basename[:-len(js_file.extension) - 1]
         define_code = 'define("%s/%s", function(require, exports, module) {' % (file_path, file_name)
-        cmd = "sed -i '1s;^;%s;' %s" % (define_code, js_file.path)
+        cmd = "sed -i '' '1s;^;%s;' %s" % (define_code, js_file.path)
         cmd += " && echo '});' >> %s" % (js_file.path)
         cmd += " && sed -i -E 's/(\.\.\/)+/%s\//' %s" % (ctx.workspace_name, js_file.path)
-        cmd += " && sed -i -E 's/(require\(.*).js/\\1/' %s" % (js_file.path)
+        cmd += " && sed -i -E 's/(require\(.*\).js/\\1/' %s" % (js_file.path)
         amd_module_conversions.append(cmd)
 
     return amd_module_conversions
